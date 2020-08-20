@@ -1,7 +1,8 @@
 package Controlador;
 
-
+import Modelo.Area;
 import Modelo.Persona;
+import modeloDAO.AreaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -19,7 +20,14 @@ public class Controlador extends HttpServlet {
     String editarpersona = "vista/EditarPersona.jsp";
     Persona persona = new Persona();
     PersonaDAO personaDAO = new PersonaDAO();
-      
+    
+    
+    //Controlador para tabla Area
+    String listararea = "vista/ListarArea.jsp";
+    String agregararea = "vista/AgregarArea.jsp";
+    String editararea = "vista/EditarArea.jsp";
+    Area area = new Area();
+    AreaDAO areaDAO = new AreaDAO();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -102,7 +110,38 @@ public class Controlador extends HttpServlet {
             int s_idpersona = Integer.valueOf(request.getParameter("f_idpersona"));
             personaDAO.eliminarpersona(s_idpersona);
             acceso = listarpersona;
+            
+        //Area
+        }else if (s_accion.equalsIgnoreCase("listararea")) {
+            acceso = listararea;
+        }else if (s_accion.equalsIgnoreCase("agregararea01")) {
+            acceso = agregararea;
+        }else if (s_accion.equalsIgnoreCase("agregararea02")) {
+            String s_nombre = request.getParameter("f_nombre");
+            String s_estado = request.getParameter("f_estado");
+            area.setNombre(s_nombre);
+            area.setEstado(s_estado);
+            areaDAO.agregararea(area);
+            acceso = listararea;
+
+        }else if (s_accion.equalsIgnoreCase("editararea01")) {
+        request.setAttribute("f_idarea", request.getParameter("f_idarea"));
+        acceso = editararea;
+        }else if (s_accion.equalsIgnoreCase("editararea02")) {
+            int s_idarea = Integer.valueOf(request.getParameter("f_idarea"));            
+            String s_nombre = request.getParameter("f_nombre");  
+            String s_estado = request.getParameter("f_estado");
+            area.setIdarea(s_idarea);
+            area.setNombre(s_nombre);
+            area.setEstado(s_estado);            
+            areaDAO.editararea(area);
+            acceso = listararea;
+        }else if (s_accion.equalsIgnoreCase("eliminararea")) {
+            int s_idarea = Integer.valueOf(request.getParameter("f_idarea"));
+            areaDAO.eliminararea(s_idarea);
+            acceso = listararea;
         }
+        
         RequestDispatcher vista = request.getRequestDispatcher(acceso);
         vista.forward(request, response);
     
