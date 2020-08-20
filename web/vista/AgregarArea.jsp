@@ -12,7 +12,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th class="text-center" colspan="2">Agregar Personas</th>                            
+                            <th class="text-center" colspan="2">Agregar Area</th>                            
                         </tr>
                         <tr></tr>
                     </thead>
